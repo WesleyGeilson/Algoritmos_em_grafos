@@ -1,0 +1,33 @@
+// 1. Elabore algoritmos para determinar o n ́umero de arestas n ̃ao incidentes a um dado
+// v ́ertice v ∈ V (G) para as seguintes representa ̧c ̃oes de G e determine a complexidade
+// de cada um.
+// (a) Matriz de adjacˆencias.
+// (b) Lista de adjacˆencias.
+
+
+// Para matriz de adjacencia
+find_incident_matriz(m,n,k){
+    count = 0;
+    Para (j = 1 até n){
+        Se(m[k][j] == 1){
+            count++
+        }
+    }
+    Se (count == 0){
+        imprime("Sem incidencia")
+    }
+}
+
+// Para lista de adjacencia
+find_incident_list(m,n,k){
+    p = k
+    Enquanto(k != NULO){
+        count++
+        k = k->prox
+    }
+    Se (count == 0){
+        imprime("Sem incidencia")
+    }
+
+
+}

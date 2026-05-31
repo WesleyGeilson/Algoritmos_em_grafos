@@ -1,0 +1,42 @@
+// Considere uma rede social onde quaisquer duas pessoas interagem apenas se uma der permissão para a
+// outra e vice-versa. 
+
+// Considere também que a rede social possui a propriedade de sugerir o contato entre duas pessoas
+// se elas compartilham ao menos um certo número k > 0 de amigos e não são amigas ainda na rede. 
+
+// Considere a rede modelada como um grafo G = (V, E), onde as pessoas são vértices e existe uma aresta entre dois vértices u e v se
+// e somente se as pessoas correspondentes a u e v se conhecem na rede. Dado o grafo em questão, o inteiro k e uma
+// pessoa qualquer P, descreva um algoritmo (não é necessário escrevê-lo) que determina o conjunto de pessoas que a
+// rede irá sugerir como possíveis amigos para P. Sua complexidade deve ser O(n+m), onde n =|V(G)| em=|E(G)|.
+// Justifique.
+
+
+algorithm_sugestion(g,p,k){ // g = grafo, p = pessoa em questao, k = vetor de amigos que ela tem no grafo
+    enquanto(lista de adjacencia de p não for nula){
+        y = elemento atual da lista de adjacencia
+        enquanto(elemento atual da lista de adjacencia de y nao for nula){
+            z = elemento atual da lista de adjacencia de y
+            Se (z nao for amigo de p, e nao for o proprio p){
+                pontos[z] = pontos[z]+1
+            }
+        }
+    }
+
+    para o grafo inteiro (g){
+        se( pontos[pessoa] > k){
+            mostrar pessoa para p
+        }
+    }
+}
+
+// ponto: uma pessoa so pode interagir com outra caso a outra permita
+// ponto: se a pessoa (x) tiver pelos menos um amigo (z) e faz amizade com esse novo amigo, o (y), esse amigo novo (y) vai ver sugestão ao amigo (z) desde que y e z não sejam amigos.
+// ponto: a susgestao de amizade de um grupo de amigos para o outro só é feita se e somente se o numero de amigos em comum entre essas duas pessoas é maior que k
+// ponto: Vertices = pessoas
+// ponto: arestas  = amizade (se conhecem)
+
+// 1 me torno amigo dessa pessoa (x)
+// 2 uma sugestão de algum amigo de (x) vai aparecer para mim, se e somente se esse amigo de x tiver um conhecido em comum, ou seja, se esse desconhecido tiver amizade com alguem que eu conheço
+// 3 caso eu aceite algum amigo dessa pessoa volto ao passo 1
+
+// obs: considerando que as pessoas sejam ponteiros numa lista de adjancecia e percorrer as arestas seja a amizades delas, o algorimo é o(n+m)

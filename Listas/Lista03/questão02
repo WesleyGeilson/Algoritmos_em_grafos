@@ -1,0 +1,41 @@
+// Elabore algoritmos para determinar o complemento de um grafo simples G = (V, E), ou
+// seja, o grafo G = (V, E)) cujos v´ertices s˜ao os mesmos que os de G e o conjunto de arestas
+// ´e tal que, uv ∈ E(G) se e somente se uv /∈ E(G). Considere as seguintes representa¸c˜oes
+// de G e determine a complexidade em cada caso.
+// (a) Matriz de adjacˆencias.
+// (b) Lista de adjacˆencias
+
+
+// basicamente, todos as arestas em g sao destruidas, e onde nao tinha aresta agora vai ter. Todos os vertices permanecem
+
+find_incident_matriz(m,n,k){
+    count = 0;
+    Para (j = 1 até n){
+        Se(m[k][j] == 1){
+            m[k][j] = 0
+        }
+        Senão se(m[k][j] == 0){
+            m[k][j] = 1
+        }
+    }
+}
+
+// Para lista de adjacencia
+aplicação em um lista inteira:
+main{
+    enquanto(q != NULO){
+        find_incident_matriz(q)
+        q = q->prox
+    }
+}
+
+find_incident_list(m,n,k){
+    Enquanto(i != NULO){
+        Enquanto(j != NULO){
+            Se(i->valor == j->valor){
+                j->prox
+            }
+        }
+    }
+
+}
