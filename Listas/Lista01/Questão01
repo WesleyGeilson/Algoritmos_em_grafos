@@ -1,0 +1,19 @@
+// Mostre que a remoção de uma ponte de um grafo G = (V, E) aumenta a quantidade de
+// componentes conexas de G em exatamente uma unidade
+// Conceito: uma ponte em um grafo é uma estrutura que conecta duas componentes conexas, 
+// ou seja, sua remoção aumenta a quantidade de componentes conexas
+// Conceito: uma ponte em um grafo é uma estrutura que necessariamente deve ser o unico caminho de comunicação com aquele vertice
+// ou seja, nao deve existir caminhos alternativos para ele.
+
+
+// Prova: Vamos supor que num grafo qualquer com uma ou mais pontes, a remoção de uma ponte não aumenta a quantidade de componentes conexas
+// Dado um grafo qualquer com uma unica componente conexa, que é caracterizado pela capacidade de se chegar em todos os vertices daquele grafo partindo 
+// de qualquer vertice.
+
+// Suponha x e z, dois vertices quaisquer, sabemos que existe um caminho entre eles, seja direto/adjacente, ou indireto, podendo ser alcançando por algum caminho,
+// digamos que o adjacente de z seja y, e que essa aresta que os conecta seja uma ponte.
+// Temos como alcançar o vertice z por meio y partindo de x.
+// Ao retirarmos essa aresta de y-z, perdemos o acesso a z. Adicionalmente, não podemos mais alcançar z, pois sua aresta era uma ponte, seu unico meio de comunicação.
+// como z nao tem mais comunicação com nenhum outro vertice no grafo, ele por si só se caracteriza como uma componente conexa. 
+// a remoção de uma ponte aumentou em uma unidade de componentes conexas no grafo.
+// Lembrando que z pode ser um vertice, mas pode ser um conjunto de vertices interno, ainda sim a lógica se aplica

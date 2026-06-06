@@ -1,0 +1,10 @@
+// Mostre que um grafo e seu complemento nao podem ser ambos desconexos
+
+// Prova por contradição: Vamos supor que o grafo e seu complemento são ambos desconexos
+
+// vamos supor dois grafos, o g e o g barra, ambos tem duas ou mais componentes, mas para ilustrar vamos dizer que g tem apenas duas componentes
+// partindo disso, temos o seguinte:
+
+// g é desconexo, portanto, C1 e C2 (componentes) pertecem a g, porem sao desconexas, e podem ter muitos vertices ou apenas 1 vertice em cada componente
+// g barra é a inclusao de arestas em pares de vertices que anteriormente nao tinham arestas, portanto, C1 e C2 
+//que tinha algum ou alguns vertices sem ligação, passam a ter conexão agora chegamos portanto numa incoerencia, g é desconexo porem g barra é conexo.

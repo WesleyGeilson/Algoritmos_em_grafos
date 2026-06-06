@@ -1,0 +1,71 @@
+// O algoritmo de kosaraju tem como objetivo identificar componentes conexas (C.F.C) num digrafo qualquer
+// Dividido em 03 partes:
+// 1. DFS_tempo 
+// 2. DFS
+// 3. Kosaraju ( DFS + DFS_tempo)
+
+// Primeiramente devemos aferir os tempos de cada vertice juntamente com sua respectiva adição numa pilha, que é indispensavel. Depois invertemos todas as direções do digrafo, pinta-se
+// de branco novamente, e, por meio da pilha, cada elemento retirado, se faz um DFS basico nele, até que ele tenha sido completamente exaurido, indicando um CFC
+
+VAR_tempo = 0;
+
+estrutura_dos_vertices{
+    d; //  tempo de descoberta 
+    f; //  tempo de finalização
+    prox; // Avança para o proximo vizinho
+}
+
+Kosaraju(G){
+
+    Inicializa pilha vazia P;
+    Para( i = 1 até n){
+        marca[i] = branco;
+    }
+    Para(i = 1 até n){
+        DFS_tempo(GD, i, P) // GD = grafo_direcionado, i = vertice, P = pilha
+    }
+
+    G_T = Transposta(G) //Inverte completamente as direções do digrafo
+
+    Para( i = 1 até n){
+        marca[i] = branco; // devemos pintar os vertices de branco novamente, pois na contegem de seus tempos, eles ficaram pretos
+    }
+    Enquanto( Pilha != Nulo ){
+        u = Desempilha(P)
+        Se (marca[u] == branco){
+            Imprime("inicio de uma Componente Fortemente Conexa")
+            DFS(G_T, u)
+            Imprime("Fim de uma Componente Fortemente Conexa")
+        }
+
+    }
+}
+
+DFS_tempo(GD, i, P){ 
+    marca[i] = cinza;
+    tempo++;
+    d[i] = tempo;
+    u = GD[i].prox;
+    Enquanto ( u !=  NULO){
+        Se(marca[u] == branco){ // só entra se e somente se o vertice ainda nao foi visitado
+            marca[u] = cinza;
+            DFS_tempo(GD, u, P)
+        }
+        u = u.prox;
+    }
+    marca[i] = preto;
+    tempo++;
+    f[i] = tempo;
+    Empilhar(P,i) // na pilha P empilhe o i
+}
+
+DFS(GD,i){
+    marca[i] = cinza;
+    u = GD[i].prox;
+
+    Enquanto(u != Nulo){
+        Se( marca[u] == branco)
+            DFS(GD, u);
+    }
+    marca[i] = preto;
+}

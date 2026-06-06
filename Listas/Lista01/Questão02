@@ -1,0 +1,21 @@
+// Em todo grafo G, dois caminhos de comprimento maximo pos-
+// suem, pelo menos, um vertice comum. Provar ou dar um contra-exemplo, para os seguin-
+// tes casos:
+// (a) G é desconexo.
+// (b) G é conexo.
+
+
+// Vamos de letra A primeiro:
+
+// G é desconexo, portanto existem CC no seu grafo.
+
+// Prova: Vamos supor dois caminhos maximos P e P', num grafo desconexo.
+// seja o seguinte grafo:
+// A -> B -> F (P)
+// D -> E -> C (P')
+
+// o grafo é desconexo, porem eles nao compartilham nenhum vertice e tem tamanho maximo.
+
+
+
+// // Vamos de letra B:

@@ -1,0 +1,14 @@
+// Considere uma execução do algoritmo de busca em profundidade sobre um grafo
+// conexo não direcionado G = (V, E). Seja T = (VT, ET) o grafo obtido a partir da busca, ou seja, o
+// grafo que contém os vértices e arestas visitados durante o percurso sobre G. Mostre que T é uma
+// árvore geradora (arvore de profundidade) de G.
+
+// (25 pontos) Seja G = (V, E) um grafo conexo não direcionado e T= (V, ET) uma árvore de
+// profundidade de G obtida a partir de uma busca em profundidade sobre G. Mostre que, para toda
+// aresta uw E E(G), ou u e ancestral de w ou u e descendente de w em T.
+
+// (25 pontos) Seja T = (V, E) uma árvore. Escreva um algoritmo que determina os valores de
+// distâncias entre todos os pares de vértices de T (não apenas entre um vértice e os demais) em
+// tempo O(n2)? Justifique.
+
+

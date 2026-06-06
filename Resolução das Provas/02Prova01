@@ -1,0 +1,20 @@
+// Seja G = (V, E) um grafo conexo não direcionado e T = (V, Et) uma árvore de profundidade de G
+// obtida a partir de uma busca em profundidade sobre G, ou seja, o subgrafo de G contendo todas as arestas ET do
+// grafo utilizadas para visitar um vértice pela primeira vez através da busca. Mostre que, para toda aresta uw €
+// E(G), ou u é ancestral de w, ou u é descendente de w em T. Justifique.
+
+//Prova por casos: Dado um grafo G = (V,E) e sua arvore de busca T. 
+//Vamos a sem perda de generalidade, ter que u pode ou não ser adjacente a v, tal como v pode ou não ser adjacente a w
+
+// v é adjacente a w e
+// Partindo de u, logo descobrimos u, certo? iremos chegar em v logo em seguida,(se forem tambem adjacentes, se nao forem tudo bem, vai demorar um pouco mais)
+// nesse caso u é ancestral de v, e v está ligado diretamente a w, isso nos dará por tabela a informação de que
+// que u é ancestral de w, pois v é ancestral de w, e u é ancestral de v.
+
+// v não é adjacente a w
+// Se v não é adjacente a w, implica em dizer que pode haver outro caminho alternativo de u para w, inclusive, pode ser até direto.
+// Para isso, serão feitas descoberta até que se encontre w, lembrando que estamos partindo de u, portanto u será ancestral de w. 
+
+// a logica se propoe de forma semelhante caso partissimos de descobrindo w para encontrar u
+
+melhorar aqui a prova, usando a logica do dfs e como u vem primeiro ou depois e como w se comporta perante isso

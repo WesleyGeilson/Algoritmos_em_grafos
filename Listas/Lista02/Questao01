@@ -1,0 +1,18 @@
+// Denotamos por ∆(G) o grau m´aximo do grafo G. Prove que, para toda ´arvore T ,
+// (a) existe ao menos ∆(T ) folhas em T ;
+// (b) o n´umero de arestas ´e igual a n − 1.
+
+Dado um grafo G = (V, E), construa um algoritmo com complexidade O(n) para, dado
+um vetor de tamanho n indexado pelos v´ertices de G e contendo o grau do respectivo
+v´ertice, ordene os v´ertices em ordem n˜ao decrescente de graus. Ou seja, o algoritmo deve
+obter uma ordem dos v´ertices de modo que u precede v se e somente se d(u) ≤ d(v).
+Mostre que o algoritmo ´e correto e que sua complexidade ´e de fato O(n).
+
+Mostre que G = (V, E) ´e uma floresta se e somente se m = n − ω(G), onde ω(G) denota
+o n´umero de componentes conexas de G
+
+
+
+
+
+arvore tem um caminho entre dois pares de vertices quaisquer,  uma arvore geradora tem todos os vertices roginais do grafo com a menor quantidade de arestas possivel
