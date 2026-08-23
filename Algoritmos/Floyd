@@ -1,0 +1,32 @@
+Algoritmo Floyd_Warshall(G) {
+    n = numero_de_vertices(G)
+    // 1. Inicialização da Matriz de Distâncias
+    Para i de 1 até n faça {
+        Para j de 1 até n faça {
+            Se (i == j) {
+                D[i][j] = 0       // Distância para si mesmo é zero
+            } Senão Se (existe rua direta de i para j) {
+                D[i][j] = peso(i, j)
+            } Senão {
+                D[i][j] = INFINITO // Não tem ligação direta ainda
+            }
+        }
+    }
+    
+    // 2. O Motor da Busca (A Mágica das 3 Repetições)
+    // 'k' é a cidade intermediária (o nosso "desvio")
+    Para k de 1 até n {
+        // 'i' é a cidade de origem
+        Para i de 1 até n faça {
+            // 'j' é a cidade de destino
+            Para j de 1 até n faça {
+                // O Processo de Relaxamento Global
+                Se (D[i][k] + D[k][j] < D[i][j]) {
+                    D[i][j] = D[i][k] + D[k][j]
+                }
+            }
+        }
+    }
+    
+    Retorna a matriz 'D[]'
+}

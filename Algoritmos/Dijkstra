@@ -1,0 +1,25 @@
+// "D" representa o vetor de distâncias mínimas do vértice inicial u para todos os outros vértices do grafo G.
+// "Q" representa a fila de prioridade que armazena os vértices ainda não processados, ordenados pela distância mínima atualmente conhecida.
+
+Algoritmo Dijkstra(G, u) {
+    Para cada vértice u em G {
+        D[u] = INFINITO
+        P[u] = nulo
+    }
+    D[u] = 0
+    Inicializa_Fila_Prioridade(Q)
+    Para cada vértice u em G {
+        Insere_Na_Fila(u, D[u])
+    }
+    Enquanto (!Fila_Vazia(Q)){
+        u = Extrai_Minimo(Q)
+        Para cada vizinho w de u {
+            custo_aresta = peso(u, w)
+            Se (D[u] + custo_aresta < D[w]) {
+                D[w] = D[u] + custo_aresta
+                P[w] = u
+                Atualiza_Prioridade(Q, w, D[w])
+            }
+        }
+    }
+}

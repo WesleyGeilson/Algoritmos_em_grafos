@@ -1,0 +1,41 @@
+Algoritmo Bellman_Ford(G, u) {
+    
+    // 1. Inicialização do ambiente (Idêntico ao Dijkstra)
+    Para cada vértice v em G {
+        D[v] = INFINITO
+        P[v] = nulo
+    }
+    D[u] = 0 
+    n = numero_de_vertices(G)
+    
+    // 2. O Motor da Busca (A Força Bruta)
+    // Regra de Ouro: Repete a varredura exatas (n - 1) vezes
+    Para i de 1 até n - 1 {
+        Para cada vertice em u em G {
+            // Em cada rodada, tenta relaxar TODAS as arestas do grafo
+            Para cada aresta w na lista_adjacencia(u) em G {   
+                custo_aresta = peso(u, w)
+                // O Processo de Relaxamento
+                Se (D[u] + custo_aresta < D[w]) {
+                    D[w] = D[u] + custo_aresta
+                    P[w] = u
+                }
+            }
+
+        }
+    }
+    
+    // 3. O Detetive de Fraudes (Verificação de Ciclo Negativo)
+    // Fazemos uma última rodada extra de checagem
+    Para cada vertice em u em G {
+        Para cada aresta w na lista_adjacencia(u) em G {
+            custo_aresta = peso(u, w)
+            
+            // Se AINDA for possível achar um atalho, a matemática quebrou!
+            Se (D[u] + custo_aresta < D[w]) {
+                Retorna "Erro: Ciclo de peso negativo detectado!"
+            }
+        }
+    }
+    Retorna "Sucesso! Caminhos mínimos calculados com segurança."
+}

@@ -1,0 +1,106 @@
+Algoritmo_Kruskal(G) {
+    Para cada vértice i em G{
+        pai[i] = i
+        rank[i] = 0          
+    }
+    
+    Seja 'LA' todas as arestas de G
+    Ordena(LA) em ordem crescente de peso
+    
+    // Conjunto que guardará as ruas que farão parte da resposta final
+    A = {}
+    Para cada aresta (u, v) em LA{
+        
+        // Verifica quem é o "chefe" do grupo de 'u' e do grupo de 'v'
+        chefe_u = Representante(u) // No pior caso a complexidade é? 
+        chefe_v = Representante(v)
+        
+        // Se eles têm chefes diferentes, significa que não estão no mesmo grupo ainda!
+        Se (chefe_u != chefe_v) {
+            União(u, v)
+            Adiciona aresta (u, v) A // A U {(u, v)}
+        }
+    } 
+    Retorna A
+}
+
+Representante(u) {
+    Se (pai[u] == u) {
+        Retorna u
+    } Senão {
+        pai[u] = Representante(pai[u])  // achata o caminho
+        Retorna pai[u]
+    }
+}
+
+// anexação de arvores inteligente (union by rank)
+União(u, v) {
+    chefe_u = Representante(u)
+    chefe_v = Representante(v)
+    Se (chefe_u == chefe_v){
+        Retorna
+    }
+    Se (rank[chefe_u] < rank[chefe_v]) {
+        pai[chefe_u] = chefe_v
+    } Senão Se (rank[chefe_u] > rank[chefe_v]) {
+        pai[chefe_v] = chefe_u
+    } Senão {
+        pai[chefe_v] = chefe_u
+        rank[chefe_u]++
+    }
+}
+
+
+=====================================================================================================================================================================================================
+
+
+Algoritmo_Kruskal_MOD(G, F, P) {
+    Para cada vértice i em G {   
+        pai[i] = i
+        rank[i] = 0
+    }
+    // 1. Processa as arestas FORÇADAS primeiro
+    A = {}
+    Para cada aresta (u, v) em F {
+        chefe_u = Representante(u)
+        chefe_v = Representante(v)
+        Se (chefe_u == chefe_v) {
+            Retorna "Não existe árvore geradora (ciclo nas arestas forçadas)"
+        } 
+        Senão {
+            União(u, v)
+            Adiciona aresta (u, v) em A
+
+        }
+    }
+    // 2. Prepara as arestas restantes
+    Seja 'LA' todas as arestas de G
+    Ordena(LA) em ordem crescente de peso // O(m log m) - O termo que domina!
+    Transforme P e F em Tabelas Hash para buscas em O(1)
+    // 3. Processa o restante, ignorando F (já inserido) e P (proibidas)
+    Para cada aresta (u, v) em LA {
+        // Pulo do gato em O(1): se é proibida ou já foi forçada, simplesmente ignore!
+        Se ((u,v) está em P) OU ((u,v) está em F) {
+            Continue
+        }
+        chefe_u = Representante(u)
+        chefe_v = Representante(v)
+
+        Se (chefe_u != chefe_v) {
+            União(u, v)
+            Adiciona aresta (u, v) em A
+        }
+    }
+    // 4. Verificação final de conectividade
+    Se (Tamanho(A) != n - 1) {
+        Retorna "Não existe árvore geradora (grafo desconexo)"
+    }
+    Retorna A
+}
+
+/* justificativa: A questao pede explicitamente que a complexidade seja igual ou até mesmo menor que a complexidade original de kruskal.
+Para tanto, numa minha primeira tentativa, pensei que fosse interesssante utilizar um para dentro de outro para de forma ingenua, onde varreriamos arestas proibidas 
+comparando com as arestas totais, e até funciona, porem o erro dessa abordagem consiste em que teremos uma complexidade multiplicada, superando a de kruskal
+a estrutura correta é a tabela hash, onde de forma resumida, ela cria tabelas de dispersões que conseguem atingir tempo constante. transformando F e P em tabelas hash, 
+podemos fazer o que fizemos antes que é varrer as arestas totais, so que agora iremos comparar as arestas atuais de LA com as arestas que pertecem a F e a P, no caso de 
+já estarem inseridas no caso de F ou de nao poderem aparecer no caso de P, simplesmente ignoramos.*/
