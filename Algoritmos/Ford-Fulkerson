@@ -1,0 +1,113 @@
+Algoritmo Ford_Fulkerson(D, origem, destino) {
+    // 1. Inicialização
+    Fluxo_Total = 0
+    Para cada aresta no grafo D{
+        fluxo[e] = 0        // transforma todas os valores em zero de cada aresta
+    }
+    
+    D_residual(D, f) // D é o digrafo em questão e f são os fluxos
+
+    // Continua enquanto a água conseguir achar um caminho da origem ao destino
+    Existir_Caminho(Da fonte para o sumidor na D_residual) = Caminho_P // se a aresta final é zerada então ignoramos o caminho
+    Enquanto (Caminho_P) {
+
+        Gargalo = ache_menor_capacidade(Caminho_P, D_residual)
+        Para cada aresta (u, v) no Caminho_P{
+
+            Se ((u, v) é uma aresta original do grafo) {
+                fluxo[(u, v)] = fluxo[(u, v)] + Gargalo
+            } Senão {
+                fluxo[(v, u)] = fluxo[(v, u)] - Gargalo
+            }
+        }
+        Fluxo_Total = Fluxo_Total + Gargalo
+        // Atualiza as capacidades de ida e volta do mapa de manobras
+        Atualiza_Rede_Residual(D_residual,fluxo)
+    }
+
+    Retorna Fluxo_Total
+}
+Atualiza_Rede_Residual(D_residual, fluxo) {
+    Para cada aresta original (u, v) no grafo D {
+        capacidade_residual[(u, v)] = capacidade_original[(u, v)] - fluxo[(u, v)] // calcula a capacidade residual da aresta original
+        capacidade_residual[(v, u)] = fluxo[(u, v)] // aresta fastama 
+    }
+}
+
+
+//(15 pontos) Considere o seguinte critério de escolha de caminhos aumentantes na rede residual durante a execução
+// do Algoritmo de Ford-Fulkerson a uma rede D = (V, E): escolhemos sempre um caminho aumentante mais curto em
+// quantidade de arestas da origem s ao destino t. Utilizando esta modificação, calcule a complexidade do algoritmo
+// resultante e argumente que, mesmo se as capacidades das arestas de D são não inteiras, o algoritmo obtido determina
+// o fluxo maximo sobre D. Justifique.
+
+// O algortimo de ford falha quando estamos com fluxos nao inteiros, reais. Portanto uma solução a ser implementada é a de escolher o menor caminho 
+Algoritmo Ford_Fulkerson(D, origem, destino) {
+    // 1. Inicialização
+    Fluxo_Total = 0
+    Para cada aresta no grafo D{
+        fluxo[e] = 0        // transforma todas os valores em zero de cada aresta
+    }
+    weske
+    D_residual(D, f) // D é o digrafo em questão e f são os fluxos
+
+    // Continua enquanto a água conseguir achar um caminho da origem ao destino
+    Existir_Caminho(Da fonte para o sumidor na D_residual) = Caminho_P // se a aresta final é zerada então ignoramos o caminho
+    Se(Existir_caminho){
+        menor_caminho(caminho_P) // garantia de que aquele caminho encontrado é realmente o menor caminho possivel
+    }
+    Enquanto (Caminho_P) {
+
+        Gargalo = ache_menor_capacidade(Caminho_P, D_residual)
+        Para cada aresta (u, v) no Caminho_P{
+
+            Se ((u, v) é uma aresta original do grafo) {
+                fluxo[(u, v)] = fluxo[(u, v)] + Gargalo
+            } Senão {
+                fluxo[(v, u)] = fluxo[(v, u)] - Gargalo
+            }
+        }
+        Fluxo_Total = Fluxo_Total + Gargalo
+        // Atualiza as capacidades de ida e volta do mapa de manobras
+        Atualiza_Rede_Residual(D_residual,fluxo)
+    }
+    
+    Retorna Fluxo_Total
+}
+Atualiza_Rede_Residual(D_residual, fluxo) {
+    Para cada aresta original (u, v) no grafo D {
+        capacidade_residual[(u, v)] = capacidade_original[(u, v)] - fluxo[(u, v)] // calcula a capacidade residual da aresta original
+        capacidade_residual[(v, u)] = fluxo[(u, v)] // aresta fastama 
+    }
+}
+
+
+// a questao 4 basicamente diz que o algoritmo de ford é mal depurado quando se tem um fluxo que nao é inteiro. 
+// Portanto a solução para isso é fazer a rede residual, e dentro da rede residual buscar o menor caminho. duas regras que nos ajudam a argumentar melhor
+// é a de que toda vez que achamos um caminho dentro da rede residual, uma aresta fica saturada ou seja, fica com a capacidade maxima atingida, 
+// e a outra é de que essa mesma aresta saturada só aparece novamente se o caminho novo encontrado for maior que o anterior, 
+// como os caminhos devem ter obrigatoriamente n-1 arestas (caso contrario tem se um ciclo) 
+//Porem a aresta so reaparece em caminhos cada vez maiores,  uma aresta qualquer so pode ser o gargalo da vez no maximo n/2 vezes (nao entendi essa parte)
+
+
+
+
+
+
+
+
+
+=====================================================================================================================================================================================================
+
+
+
+QUESTAO 5
+// Dada D = (V, E) uma rede com fonte s, sumidouro t e capacidades nas arestas c : E(D) -R+, um
+// fluxo f : E(D) > R+ é maximal se, para todo caminho de s a t em D existe ao menos uma aresta e € E(D)
+// saturada, ou seja, f(e) = c(e). Prove ou dê um contra-exemplo: seja (S, S) um corte mínimo de D, então, para
+// todo fluxo f maximal e não máximo em D existe uma aresta e € (S, S)- tal que f(e) > 0.
+
+
+// 1. O fluxo só é máximo quando não existe mais nenhum caminho aumentante na rede residual.
+// 2.O fluxo é maximal quando todos os caminhos aumentatntes possuirem uma aresta saturada
+

@@ -1,0 +1,234 @@
+// 1. (15 pontos) Mostre por contradição que toda árvore geradora mínima T = (V,E') de um dado grafo conexo
+// ponderado e não-direcionado G = (V, E), com função de pesos w : E(G) - R, possui uma aresta de peso mínimo
+// de G.
+
+// R= Por contradição, vamos supor que para arvore geradora minima, não se tem em sua composição de arestas, a aresta de peso minimo do do G (grafo original)
+// Dado um grafo original qualquer, temos que em suas arestas, havera aquela de menor tamanho, chamaremos de "e min" ligando (u,v). 
+// Dado sua MST, que por contradição não tem nenhuma aresta de peso minimo do grafo, chamaremos de T' e Diremos que W(T') é o custo de T.
+// Temos 02 regras que auxiliam na construção do nosso argumento:
+// a inserção de qualquer aresta numa arvore geradora, implica na construção de um ciclo.
+// a remoção de quelquer aresta do ciclo criado transforma ela novamente em uma arvore geradora diferente
+// portanto, em T', iremos adicionar essa "e min" que liga dois vertices, no compasso que iremos retirar outra aresta pertencente ao ciclo recem criado
+// O resultado disso é que teremos uma nova arvore geradora minima T''
+// o custo da arvore T' original era: soma de todos os w(e)
+// o custo de W(T'') = W(T') - W(e do ciclo) + (e min) e como havia sido mencionado, todas as arestas de T'  são maiores que "e min", sua adição em T' e a remoção de alguma do ciclo criado, implica na redução de custo
+// Comparando seus custos, teremos que W(T') > W(T''), 
+// Portanto, T' foi suposta minima, mas vimos que T'' apresenta um custo menor, isso com a inclusão da aresta de peso minimo.
+
+
+
+// ================================================================================================================================================================================================================================================
+
+
+
+// 2. (15 pontos) Modifique o Algoritmo de Kruskal para determinar uma árvore geradora mínima, se alguma existe,
+// de um grafo simples conexo ponderado G = (V, E) com função de pesos w : E(G) > R, onde um conjunto F de
+// arestas são forçadas a estarem na árvore e outro conjunto P de arestas são proibidas de pertencerem a árvore.
+// Considere que |F| = f e |P| = p, onde F e P são dados como entrada em forma de vetores. A complexidade do seu
+// algoritmo não pode ser superior a do Algoritmo de Kruskal original. Justifique.
+
+// R= 
+Algoritmo_Kruskal_MOD(G, F, P) { // G, grafo ; F, vetor de arestas forçadas, P, vetor de arestas forçadas. complexidade : o(m log m)
+    Para cada vértice i em G {   
+        pai[i] = i
+        rank[i] = 0
+    }
+    //Processa as arestas FORÇADAS primeiro
+    A = {}
+    Para cada aresta (u, v) em F {
+        chefe_u = Representante(u)
+        chefe_v = Representante(v)
+        Se (chefe_u == chefe_v) {
+            Retorna "Não existe árvore geradora (ciclo nas arestas forçadas)"
+        } 
+        Senão {
+            União(u, v)
+            Adiciona aresta (u, v) em A
+
+        }
+    }
+    //Prepara as arestas restantes
+    Seja 'LA' todas as arestas de G
+    Ordena(LA) em ordem crescente de peso // O(m log m) - O termo que domina!
+    Transforma P e F em Tabelas Hash para buscas em O(1)
+    //Processa o restante, ignorando F (já inserido) e P (proibidas)
+    Para cada aresta (u, v) em LA {
+        //se é proibida ou já foi forçada, simplesmente ignore
+        Se ((u,v) está em P) OU ((u,v) está em F) {
+            Continue
+        }
+        chefe_u = Representante(u)
+        chefe_v = Representante(v)
+
+        Se (chefe_u != chefe_v) {
+            União(u, v)
+            Adiciona aresta (u, v) em A
+        }
+    }
+    //Verificação final de conectividade
+    Se (Tamanho(A) != n - 1) {
+        Retorna "Não existe árvore geradora (grafo desconexo)"
+    }
+    Retorna A
+}
+
+/* justificativa: A questao pede explicitamente que a complexidade seja igual ou até mesmo menor que a complexidade original de kruskal.
+Para tanto, numa minha primeira tentativa, pensei que fosse interesssante utilizar um laço para dentro de outro laço para onde de forma ingenua, varreriamos arestas proibidas 
+comparando com as arestas totais e as ignorando. Até funciona, porem o erro dessa abordagem consiste em que teremos uma complexidade multiplicada, superando a de kruskal por muito.
+A estrutura correta é a tabela hash, onde de forma resumida, ela cria tabelas de dispersões que conseguem atingir tempo constante. transformando F e P em tabelas hash, 
+podemos fazer o que fizemos antes que é varrer as arestas totais, so que agora iremos comparar as arestas atuais de LA com as arestas que pertecem a F e a P, no caso de 
+já estarem inseridas no caso de F ou de nao poderem aparecer no caso de P, e então simplesmente ignoramos esses casos. De resto o algoritmo segue normalmente*/
+
+
+
+
+// ================================================================================================================================================================================================================================================
+
+
+
+// 3. (15 pontos) Seja G = (V, E) um grafo não direcionado. Escreva um algoritmo de tempo O(n) que determina se G
+// é uma floresta ou não sem utilizar percursos em grafos. Justifique.
+// R= 
+
+IsFlorest(G,n){ // seja n o numero de vertices previo
+    contagem_de_aresta = 0
+    Para cada vertice u em G{ // criei uma solução alternativa pois acredito que a complexidade aqui ultrapasse o O(n) 
+        Para cada vizinho w em u{
+            contagem_de_aresta++    
+            // temos uma aresta "indo" e "voltando" na vez de u e na vez de v, respectivamente
+        } 
+        contagem_de_aresta++ 
+        Se(contagem_de_aresta >= 2*n ){
+            retorna "ciclo, pois existem mais arestas do que vertices, deve haver ciclos!"
+        }
+    }
+    Para cada vértice i em G {   
+        pai[i] = i
+        rank[i] = 0
+    }
+    Para cada vertice u em G{
+        Para cada vizinho w em u{
+            Se (u < w)
+            chefe_u = Representante(u)
+            chefe_w = Representante(w)
+            Se (chefe_u == chefe_w) {
+                Retorna "Não é uma floresta, pois existe ciclo"
+            } 
+            Senão {
+                União(u, w)
+            }
+        }    
+    }
+    retorna "Passou em todos os testes, é uma floresta, pois não existem ciclos"
+}
+
+/*Justificativa: Contar arestas normalmente leva o(m+n), porem quando se tem um grafo denso, essa complexidade aumenta para o(n²) pois teremos muitas arestas.
+a ideia é colocamos uma condição de parada na qual o algoritmo retorna caso tenha mais arestas do que vertices no grafo, denunciando que temos um ciclo ali. Essa complexidade cai de o(m+n)
+para 2*o(n) que é igual a o(n). na parte que ocorre o laço duplo, estamos utilizando a estrategia dos conjuntos dinjustos para identificar ciclos, e caso exista automaticamente para. a complexidade
+normalmente é de o(n) considerando que estamos usando compresssao de caminhos e uniao por rank, a complexidade final é de O(n)*/
+
+
+
+// ================================================================================================================================================================================================================================================
+
+
+
+// 4. (15 pontos) Considere o seguinte critério de escolha de caminhos aumentantes na rede residual durante a execução
+// do Algoritmo de Ford-Fulkerson a uma rede D = (V, E): escolhemos sempre um caminho aumentante mais curto em
+// quantidade de arestas da origem s ao destino t. Utilizando esta modificação, calcule a complexidade do algoritmo
+// resultante e argumente que, mesmo se as capacidades das arestas de D são não inteiras, o algoritmo obtido determina
+// o fluxo máximo sobre D. Justifique.
+// Obs: Utilize o fato de que o comprimento mínimo em número de arestas de um caminho aumentante em uma
+// rede residual R' obtida a partir de uma rede residual R do passo anterior durante a execução do algoritmo é não
+// inferior ao comprimento mínimo em número de arestas de um caminho aumentante de R, ou seja, dada a escolha
+// acima sobre os caminhos aumentantes, os comprimentos dos caminhos mínimos em quantidade de arestas nas redes
+// residuais obtidas sucessivamente nunca decresce.
+// R= 
+
+// O algoritmo a partir de agora sempre escolhe o menor caminho na rede, e logo após isso ele monta a rede residual, onde ele pode encontrar caminhos aumentantes, porem eles serao sempre
+//maiores caso eles fossem utilizados, isso nos blinda caso o peso das arestas fossem quebrados, caso fossem quebrados o fluxo maximo encontrado pode dar problema na contagem para encontrar o proximo caminho na rede residual 
+// uma aresta (u,v) pode ser crítica no máximo O(n) vezes durante toda a execução do algoritmo. a complexidade que era O(m(F + 1)) fica O(n*m²) ficando mais estavel por que depende-se agora do tamanho e não mais do fluxo
+
+
+// ================================================================================================================================================================================================================================================
+
+
+
+// 5. (15 pontos) Dada D = (V, E) uma rede com fonte s, sumidouro t e capacidades nas arestas c : E(D) -R+, um
+// fluxo f : E(D) > R+ é maximal se, para todo caminho de s a t em D existe ao menos uma aresta e € E(D)
+// saturada, ou seja, f(e) = c(e). Prove ou dê um contra-exemplo: seja (S, Sbarra) um corte mínimo de D, então, para
+// todo fluxo f maximal e não máximo em D existe uma aresta e € (S, Sbarra)- tal que f(e) > 0.
+
+// R= (S, S) um corte mínimo de D, então, para todo fluxo f maximal e não máximo em D existe uma aresta e € (S, S)- tal que f(e) > 0.
+    // contraexemplo: seja o grafo = {s,u,v,t}, onde:
+    // s -> u , 2
+    // s -> v, 1
+    // v -> t , 2
+    // u -> t, 2
+    // u -> v 1
+
+// "A afirmação é falsa. Segue um contraexemplo:
+// Considere a rede D com vértices V = {s, u, v, t} e as seguintes
+// capacidades:
+// c(s,u)=2,c(s,v)=2,c(u,v)=1,c(u,t)=2,c(v,t)=2.
+// O fluxo máximo dessa rede é 4.
+// Vamos aplicar o seguinte fluxo f:
+// f(s,u)=2,f(s,v)=1,f(u,v)=1,f(u,t)=1,f(v,t)=2.
+// O valor desse fluxo e f(D) = 3. 
+// Ele e um fluxo maximal pois todo caminho de s a t na rede possui ao menos uma aresta saturada (os caminhos travam nas arestas (s, u), (v,t) e (u, v)). E ele é não máximo pois 3 < 4)
+// Seja o corte S = {s} e Sbarra = {u,v,t}. A capacidade deste corte é c(s, u) +c(s,v) = 2+2 =4, provando que é um corte minimo da rede.
+// O conjunto de arestas (S, Sbarra)- engloba todas as arestas que partem de S barra para S. Neste corte, não existe nenhuma aresta retornando dos vértices
+// {u, v,t} para a origem {s}. Portanto, (S, Sbarra)- = 0.
+// Como o conjunto é vazio, é impossível que exista uma aresta e € (S, Sbarra)- tal que f(e) > 0
+
+
+
+// ================================================================================================================================================================================================================================================
+
+
+
+// 6. (15 pontos) Modifique o Algoritmo de Prim de modo que o mesmo se torne mais vantajoso que o Algoritmo de
+// Kruskal sempre que o grafo de entrada for denso, ou seja, se m = O(n¹), mostrando as complexidades dos algoritmos
+// de Prim modificado e normal, além da complexidade do Algoritmo de Kruskal para o mesmo caso. Justifique.
+
+// R = Complexidade de Prim para grafos densos = O(m² log(n))
+// R = Complexidade de Krusal para grafos densos = O(m² log(n))
+// R = Complexidade de Prim_mod para grafos densos = O(n²+m)
+
+
+Entrada: G denso (m = n²)
+Algoritmo_Prim_Denso(G, v_inicial) {
+
+    Para cada vértice u no G{
+        prioridade[i] = INFINITO   
+        pai[i] = NULO              
+    }      
+    vet_prioridades[v_inicial] = 0
+    vet_prioridades[propriedades] // ordenado do maior para o menor
+    aux = vet
+    Enquanto (aux != Nulo){ // custo para andar pelo vetor vai ser O(n²)
+        v = aux
+        Para cada vertice u de g{ // o(m+n)
+            Para cada vizinho w de u{
+                peso_aresta = Peso(u, w)
+                Se (peso_aresta < prioridade[w]) {
+                    vet_prioridade[w] = peso_aresta   // Atualiza com o nouo preço baixo o(1) como acontece n vezes, vai ser o(n²) vezes
+                    pai[w] = u                    // Anota que 'v' é quem fornece essa conexão
+                }
+            }
+        }
+
+    }
+    Retorna aux // Retorna a estrutura da Árvore (quem está conectado a quem)
+}
+
+// O Prim implementa a estrutura de heap, o Kruskal ordena arestas, ambos exigem das arestas. no caso de usar um vetor,
+// ganhamos muito em modificar seus valores do que consertar recorrentemente as arestas modificadas   
+
+// ================================================================================================================================================================================================================================================
+
+
+
+// 7. (15 pontos) Seja D = (V, E) a rede ponderada mostrada na Figura abaixo com fonte s e sumidouro t. Mostre a
+// situação em que o algoritmo de Ford-Fulkerson executaria o número máximo de iterações para determinar o fluxo
+// máximo de D. Justifique.

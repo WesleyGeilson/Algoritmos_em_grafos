@@ -1,3 +1,5 @@
+=====================================================================================================================================================================================================
+
 Algoritmo_Kruskal(G) {
     Para cada vértice i em G{
         pai[i] = i
@@ -104,3 +106,45 @@ comparando com as arestas totais, e até funciona, porem o erro dessa abordagem 
 a estrutura correta é a tabela hash, onde de forma resumida, ela cria tabelas de dispersões que conseguem atingir tempo constante. transformando F e P em tabelas hash, 
 podemos fazer o que fizemos antes que é varrer as arestas totais, so que agora iremos comparar as arestas atuais de LA com as arestas que pertecem a F e a P, no caso de 
 já estarem inseridas no caso de F ou de nao poderem aparecer no caso de P, simplesmente ignoramos.*/
+
+
+
+
+=====================================================================================================================================================================================================
+
+
+IsFlorest(G,n){ // seja n o numero de vertices previo
+    contagem_de_aresta = 0
+    Para cada vertice u em G{
+        Para cada vizinho w em u{
+            contagem_de_aresta++    
+            // temos uma aresta "indo" e "voltando" na vez de u e na vez de v, respectivamente
+        } 
+        contagem_de_aresta++/2 
+        Se(contagem_de_aresta >= n ){
+            retorna "ciclo, pois existem mais arestas do que vertices, deve haver ciclos!"
+        }
+    }
+
+    Para cada vértice i em G {   
+        pai[i] = i
+        rank[i] = 0
+    }
+    Para cada vertice u em G{
+        Para cada vizinho w em u{
+            chefe_u = Representante(u)
+            chefe_w = Representante(w)
+            Se (chefe_u == chefe_w) {
+                Retorna "Não é uma floresta, pois existe ciclo"
+            } 
+            Senão {
+                União(u, w)
+            }
+        }    
+    }
+
+    retorna "Passou em todos os testes, é uma floresta, pois não existem ciclos"
+}
+
+
+=====================================================================================================================================================================================================

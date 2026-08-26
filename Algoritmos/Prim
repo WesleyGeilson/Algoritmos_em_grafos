@@ -1,0 +1,52 @@
+Algoritmo Prim(G, v_inicial) {
+
+    Para cada vértice u no G{
+        prioridade[u] = INFINITO   // o(n)
+        pai[u] = NULO              
+    }
+    
+    prioridade[v_inicial] = 0      
+    
+    H = Construir_Fila_Prioridade(G.Vértices, prioridade) // O(n)
+    Enquanto (H não estiver vazio){
+        v = Remove_Minimo(H) // O(log n)
+    
+        Para cada vizinho w de v contido no H{ //O(m)
+            peso_aresta = Peso(v, w)
+            Se (peso_aresta < prioridade[w]) {
+                prioridade[w] = peso_aresta   // Atualiza com o novo preço baixo
+                pai[w] = v                    // Anota que 'v' é quem fornece essa conexão
+                Atualizar_Valor(H, prioridade[w]) // Reorganiza a fila O(log n)
+            }
+        }
+    }
+    
+    Retorna pai // Retorna a estrutura da Árvore (quem está conectado a quem)
+}
+
+Entrada: G denso (m = n²)
+Algoritmo_Prim_Denso(G, v_inicial) {
+
+    Para cada vértice u no G{
+        prioridade[i] = INFINITO   
+        pai[i] = NULO              
+    }      
+    
+    vet_prioridades[propriedades] // maior para o menor
+    aux = vet
+    Enquanto (aux != Nulo){
+        v = aux
+    
+        Para cada vizinho w de v contido no H{
+            
+            peso_aresta = Peso(v, w)
+            Se (peso_aresta < prioridade[w]) {
+                vet_prioridade[w] = peso_aresta   // Atualiza com o novo preço baixo
+                pai[w] = v                    // Anota que 'v' é quem fornece essa conexão
+            }
+        }
+
+    }
+    
+    Retorna aux // Retorna a estrutura da Árvore (quem está conectado a quem)
+}
